@@ -1,12 +1,72 @@
 package eu.kuffel.sparkapp;
 
+import eu.kuffel.sparkapp.filters.AppDevelopFilter;
+import eu.kuffel.sparkapp.routes.AppDevelopRoute;
+import spark.route.RouteOverview;
+
+import static spark.Spark.*;
+
 /**
- * Created by adam on 06.01.17.
+ * This class is the main entry point for your microservice.
+ * All endpoints are defined in this main method.
+ *
+ * @author kuffel
+ * @version 06.01.2017
  */
 public class Application {
 
+
     public static void main(String[] args) {
-        System.out.println("Application started...");
+
+/*
+        if (localhost) {
+            String projectDir = System.getProperty("user.dir");
+            String staticDir = "/src/main/resources/public";
+            staticFiles.externalLocation(projectDir + staticDir);
+        } else {
+            staticFiles.location("/public");
+        }
+        */
+        staticFiles.location("/static");
+
+        int maxThreads = 8;
+        int minThreads = 2;
+        int timeOutMillis = 30000;
+        threadPool(maxThreads, minThreads, timeOutMillis);
+        port(9999);
+
+        RouteOverview.enableRouteOverview("/develop/routes");
+
+
+        before("/api/*", AppDevelopFilter.create());
+
+        get( "/api/develop", AppDevelopRoute.create());
+        post( "/api/develop", AppDevelopRoute.create());
+        patch( "/api/develop", AppDevelopRoute.create());
+        put( "/api/develop", AppDevelopRoute.create());
+        head( "/api/develop", AppDevelopRoute.create());
+        options( "/api/develop", AppDevelopRoute.create());
+        delete( "/api/develop", AppDevelopRoute.create());
+
+        /*
+        exception(Exception.class, (exception, request, response) -> {
+            // Handle the exception here
+        });
+        */
+
+        /*
+        post("/yourUploadPath", (request, response) -> {
+            request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+            try (InputStream is = request.raw().getPart("uploaded_file").getInputStream()) {
+                // Use the input stream to create a file
+            }
+            return "File uploaded";
+        });
+        */
+
+
+        get("/hello", (req, res) -> "Hello World");
+
     }
 
 }

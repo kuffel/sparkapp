@@ -17,7 +17,7 @@ apply plugin: 'idea'
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-mainClassName = "eu.kuffel.sparkapp.Application"
+mainClassName = 'eu.kuffel.sparkapp.Application'
 
 shadowJar {
     baseName = 'sparkapp'
@@ -30,5 +30,9 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.json:json:20160810'
+    compile 'org.slf4j:slf4j-simple:1.7.21'
+    compile 'com.sparkjava:spark-core:2.5.4'
+
+    testCompile 'junit:junit:4.11'
 }
