@@ -1,9 +1,29 @@
 group 'eu.kuffel'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
 
-sourceCompatibility = 1.5
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+mainClassName = "eu.kuffel.sparkapp.Application"
+
+shadowJar {
+    baseName = 'sparkapp'
+    classifier = null
+    version = null
+}
 
 repositories {
     mavenCentral()
