@@ -5,7 +5,9 @@ import spark.Request;
 import spark.Response;
 
 /**
- * Created by adam on 06.01.17.
+ *
+ * @author kuffel
+ * @version 06.01.2017
  */
 public class AppDevelopFilter implements Filter {
 
@@ -23,7 +25,7 @@ public class AppDevelopFilter implements Filter {
 
     @Override
     public void handle(Request request, Response response) throws Exception {
-        System.out.println("AppDevelopFilter.handle");
+        //System.out.println("AppDevelopFilter.handle");
     }
 
 }

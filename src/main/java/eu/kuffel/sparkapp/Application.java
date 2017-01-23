@@ -1,6 +1,7 @@
 package eu.kuffel.sparkapp;
 
 import eu.kuffel.sparkapp.filters.AppDevelopFilter;
+import eu.kuffel.sparkapp.filters.AppHeadersFilter;
 import eu.kuffel.sparkapp.routes.AppDevelopRoute;
 import spark.route.RouteOverview;
 
@@ -15,10 +16,14 @@ import static spark.Spark.*;
  */
 public class Application {
 
+    public static final String SERVER_HEADER = "sparkapp";
+
+
+
 
     public static void main(String[] args) {
 
-/*
+        /*
         if (localhost) {
             String projectDir = System.getProperty("user.dir");
             String staticDir = "/src/main/resources/public";
@@ -37,16 +42,28 @@ public class Application {
 
         RouteOverview.enableRouteOverview("/develop/routes");
 
+        // Filter mapping
 
-        before("/api/*", AppDevelopFilter.create());
+        before("*", "[*/*]", AppHeadersFilter.create());
 
-        get( "/api/develop", AppDevelopRoute.create());
-        post( "/api/develop", AppDevelopRoute.create());
-        patch( "/api/develop", AppDevelopRoute.create());
-        put( "/api/develop", AppDevelopRoute.create());
-        head( "/api/develop", AppDevelopRoute.create());
-        options( "/api/develop", AppDevelopRoute.create());
-        delete( "/api/develop", AppDevelopRoute.create());
+
+
+
+        //before("/api/*", AppDevelopFilter.create());
+
+        // Route mapping
+
+        get( "/api/develop", "[*/*]", AppDevelopRoute.create());
+        post( "/api/develop", "[*/*]", AppDevelopRoute.create());
+        patch( "/api/develop", "[*/*]", AppDevelopRoute.create());
+        put( "/api/develop", "[*/*]", AppDevelopRoute.create());
+        head( "/api/develop", "[*/*]", AppDevelopRoute.create());
+        options( "/api/develop", "[*/*]", AppDevelopRoute.create());
+        delete( "/api/develop", "[*/*]", AppDevelopRoute.create());
+
+
+        //exception(Exception.class, AppDevelopRoute.create());
+        notFound(AppDevelopRoute.create());
 
         /*
         exception(Exception.class, (exception, request, response) -> {
