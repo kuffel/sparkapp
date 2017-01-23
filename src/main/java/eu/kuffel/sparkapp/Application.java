@@ -26,13 +26,14 @@ public class Application {
         /*
         if (localhost) {
             String projectDir = System.getProperty("user.dir");
-            String staticDir = "/src/main/resources/public";
+            String staticDir = "/src/main/resources/webroot";
             staticFiles.externalLocation(projectDir + staticDir);
         } else {
-            staticFiles.location("/public");
+            staticFiles.location("/webroot");
         }
         */
-        staticFiles.location("/static");
+        staticFiles.location("/webroot");
+        staticFiles.expireTime(600);
 
         int maxThreads = 8;
         int minThreads = 2;

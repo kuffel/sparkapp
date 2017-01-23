@@ -1,6 +1,6 @@
 node_modules
 bower_components
-
+/src/main/resources/webroot/libs/
 
 # Created by https://www.gitignore.io/api/linux,macos,intellij,eclipse,netbeans,java,gradle,git
 
