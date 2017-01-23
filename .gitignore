@@ -1,3 +1,6 @@
+node_modules
+bower_components
+
 
 # Created by https://www.gitignore.io/api/linux,macos,intellij,eclipse,netbeans,java,gradle,git
 

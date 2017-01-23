@@ -1,0 +1,24 @@
+{
+  "name": "sparkapp",
+  "description": "Spark framework application",
+  "main": "index.html",
+  "authors": [
+    "kuffel <adam@kuffel.eu>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Gradle",
+    "Grunt",
+    "Spark",
+    "Framework"
+  ],
+  "homepage": "https://github.com/kuffel/sparkapp",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

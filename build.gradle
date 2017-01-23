@@ -2,9 +2,15 @@ group 'eu.kuffel'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    repositories { jcenter() }
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+        classpath "com.moowork.gradle:gradle-node-plugin:1.1.1"
     }
 }
 
@@ -13,11 +19,46 @@ apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'com.moowork.node'
+apply plugin: 'com.moowork.grunt'
 
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 mainClassName = 'eu.kuffel.sparkapp.Application'
+
+node {
+    version = '6.9.1'
+    npmVersion = '3.10.8'
+    download = true
+}
+
+task npmCacheConfig(type: NpmTask) {
+    description = "Configure the NPM cache"
+    def npmCacheDir = "${gradle.getGradleUserHomeDir()}/caches/npm"
+    outputs.files file(npmCacheDir)
+    args = [ 'config', 'set', 'cache', npmCacheDir ]
+}
+
+task npmPackages(type: NpmTask, dependsOn: npmCacheConfig) {
+    description = "Install Node.js packages"
+    args = [ 'install' ]
+    inputs.files file('package.json')
+    outputs.files file('node_modules')
+}
+
+task bowerInstall(type: NodeTask) {
+    script = file('node_modules/bower/bin/bower')
+    args = ["--config.storage.cache=${gradle.getGradleUserHomeDir()}/caches/bower/cache",
+            "--config.storage.packages=${gradle.getGradleUserHomeDir()}/caches/bower/packages",
+            "--config.storage.registry=${gradle.getGradleUserHomeDir()}/caches/bower/registry",
+            'install']
+    inputs.files file('bower.json')
+    outputs.files file('bower_components')
+    dependsOn npmPackages
+}
+
+
 
 shadowJar {
     baseName = 'sparkapp'
@@ -25,9 +66,20 @@ shadowJar {
     version = null
 }
 
+build.dependsOn bowerInstall, grunt_default
+shadowJar.dependsOn bowerInstall, grunt_default
+run.dependsOn build
+
+
 repositories {
     mavenCentral()
 }
+
+clean.doFirst {
+    delete "${rootDir}/node_modules"
+    delete "${rootDir}/bower_components"
+}
+
 
 dependencies {
     compile 'org.json:json:20160810'

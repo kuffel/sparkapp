@@ -1,0 +1,30 @@
+{
+  "name": "sparkapp",
+  "version": "1.0.0",
+  "description": "Spark framework application",
+  "main": "index.html",
+  "scripts": {
+    "test": "gradlew test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kuffel@github.com/kuffel/sparkapp.git"
+  },
+  "keywords": [
+    "Gradle",
+    "Grunt",
+    "Spark",
+    "Framework"
+  ],
+  "author": "kuffel <adam@kuffel.eu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kuffel/sparkapp/issues"
+  },
+  "homepage": "https://github.com/kuffel/sparkapp#readme",
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0"
+  }
+}
