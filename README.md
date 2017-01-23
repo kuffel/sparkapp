@@ -25,6 +25,32 @@ To start this application you can simply use this command:
 
 For further instructions on using the Spark framework read the [official documentation](http://sparkjava.com/documentation.html)
 
+
+## sparkapp.jar
+
+The generated jar file provides some cli options to create and pass a configuriation file for your service instance.
+
+    $ java -jar sparkapp.jar -h
+    usage: java -jar sparkapp.jar [-c <config.json>] [-h] [-i] [-v]
+     -c,--config <config.json>   Path to config.json
+     -h,--help                   Show usage and help information
+     -i,--init                   Create empty template config.json
+     -v,--version                Display current application version
+
+For production deployments with your own configuration just start the service with your own config.json.
+
+To generate a new config.json run java -jar sparkapp.jar -i
+
+If you do not provide any config this values will be uses as defaults:
+
+    {
+        "name" : "sparkapp",
+        "version" : [CURRENT VERSION STRING],        
+        "secret" : [RANDOM STRING],                
+        "port" : 9999
+    }
+
+
 ## References
 
 [Spark Java Website](http://sparkjava.com/)

@@ -30,7 +30,7 @@ public class AppHeadersFilter implements Filter {
         if(request.uri().startsWith("/api")){
             response.type("application/json");
         }
-        response.header("Server", Application.SERVER_HEADER);
+        response.header("Server", Application.APP_NAME);
     }
 
 }
