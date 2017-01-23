@@ -69,6 +69,7 @@ shadowJar {
 build.dependsOn bowerInstall, grunt_default
 shadowJar.dependsOn bowerInstall, grunt_default
 run.dependsOn build
+test.dependsOn bowerInstall, grunt_default
 
 
 repositories {
