@@ -1,10 +1,14 @@
 package eu.kuffel.sparkapp;
 
+import com.mongodb.Block;
+import com.mongodb.async.SingleResultCallback;
+import com.mongodb.async.client.*;
 import eu.kuffel.sparkapp.filters.AppDevelopFilter;
 import eu.kuffel.sparkapp.filters.AppHeadersFilter;
 import eu.kuffel.sparkapp.routes.AppDevelopRoute;
 import eu.kuffel.sparkapp.utils.AppRandom;
 import org.apache.commons.cli.*;
+import org.bson.Document;
 import org.json.JSONException;
 import org.json.JSONObject;
 import spark.route.RouteOverview;
@@ -53,6 +57,12 @@ public class Application {
      */
     public static JSONObject config;
 
+    /**
+     * Reference to a connected mongo db client.
+     */
+    public static MongoClient db;
+
+
 
     public static void main(String[] args) {
         CommandLine cmd = parseArgs(args);
@@ -78,6 +88,28 @@ public class Application {
         int timeOutMillis = config.getInt("threads_idle_timeout_ms");
         threadPool(maxThreads, minThreads, timeOutMillis);
         port(config.getInt("port"));
+
+        /*
+        //http://mongodb.github.io/mongo-java-driver/3.4/driver-async/tutorials/databases-collections/
+
+        MongoClient client = MongoClients.create("mongodb://localhost:27017");
+        MongoIterable<String> dbs = client.listDatabaseNames();
+        client.listDatabaseNames().forEach(new Block<String>() {
+            @Override
+            public void apply(final String s) {
+                System.out.println(s);
+            }
+        }, new SingleResultCallback<Void>() {
+            @Override
+            public void onResult(Void result, Throwable t) {
+                System.out.println("Operation Finished!");
+            }
+        });
+        */
+
+
+
+
 
         RouteOverview.enableRouteOverview("/develop/routes");
 
@@ -136,7 +168,8 @@ public class Application {
         defaultConfig.put("threads_min", 2);
         defaultConfig.put("threads_max", 8);
         defaultConfig.put("threads_idle_timeout_ms", 30000);
-
+        defaultConfig.put("mongodb_connectionstring", "mongodb://localhost:27017");
+        defaultConfig.put("mongodb_database", "sparkapp_db");
         return defaultConfig;
     }
 
