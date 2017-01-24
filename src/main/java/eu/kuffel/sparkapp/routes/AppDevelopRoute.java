@@ -1,5 +1,8 @@
 package eu.kuffel.sparkapp.routes;
 
+import eu.kuffel.sparkapp.utils.AppCommons;
+import eu.kuffel.sparkapp.utils.AppRequest;
+import eu.kuffel.sparkapp.utils.AppResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,6 +10,9 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.Part;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,7 +35,15 @@ public class AppDevelopRoute implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public Object handle(Request requestRaw, Response responseRaw) throws Exception {
+
+        AppRequest request = new AppRequest(requestRaw);
+        AppResponse response = new AppResponse(responseRaw);
+
+
+
+
+
         JSONObject responseJSON = new JSONObject();
 
         responseJSON.put("method",request.requestMethod());
@@ -83,6 +97,20 @@ public class AppDevelopRoute implements Route {
                 ex.printStackTrace();
             }
         }
+
+
+        /*
+        MultipartConfigElement multipartConfigElement = new MultipartConfigElement(System.getProperty("java.io.tmpdir"));
+        request.raw().setAttribute("org.eclipse.multipartConfig", multipartConfigElement);
+        JSONObject multipartData = new JSONObject();
+        Collection<Part> parts = request.raw().getParts();
+        for(Part p : parts){
+            multipartData.put(p.getName(), p.getContentType()+" "+p.getSize());
+        }
+        responseJSON.put("multiparts",multipartData);
+        */
+
+
 
 
 

@@ -1,20 +1,18 @@
 package eu.kuffel.sparkapp;
 
-import com.mongodb.Block;
-import com.mongodb.async.SingleResultCallback;
 import com.mongodb.async.client.*;
-import eu.kuffel.sparkapp.filters.AppDevelopFilter;
 import eu.kuffel.sparkapp.filters.AppHeadersFilter;
 import eu.kuffel.sparkapp.routes.AppDevelopRoute;
 import eu.kuffel.sparkapp.utils.AppRandom;
 import org.apache.commons.cli.*;
-import org.bson.Document;
 import org.json.JSONException;
 import org.json.JSONObject;
 import spark.route.RouteOverview;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static spark.Spark.*;
 
@@ -60,7 +58,12 @@ public class Application {
     /**
      * Reference to a connected mongo db client.
      */
-    public static MongoClient db;
+    public static MongoClient mongoClient;
+
+    /**
+     * Reference to an mongo db.
+     */
+    public static MongoDatabase mongoDatabase;
 
 
 
@@ -88,6 +91,12 @@ public class Application {
         int timeOutMillis = config.getInt("threads_idle_timeout_ms");
         threadPool(maxThreads, minThreads, timeOutMillis);
         port(config.getInt("port"));
+
+
+        mongoClient = MongoClients.create(config.getString("mongodb_connectionstring"));
+        mongoDatabase = mongoClient.getDatabase(config.getString("mongodb_database"));
+
+
 
         /*
         //http://mongodb.github.io/mongo-java-driver/3.4/driver-async/tutorials/databases-collections/
