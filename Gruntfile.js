@@ -93,7 +93,7 @@
         grunt.loadNpmTasks('grunt-contrib-uglify');
         grunt.loadNpmTasks('grunt-contrib-clean');
 
-        grunt.registerTask('default', ['cssmin', 'copy', 'concat', 'uglify', 'clean']);
+        grunt.registerTask('default', ['cssmin', 'copy', 'concat', 'clean']);
 
 
     }; // END module.exports = function (grunt)
